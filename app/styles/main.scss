@@ -1,0 +1,30 @@
+$icon-font-path: '../fonts/';
+
+// bower:scss
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+// endbower
+@import "_variables.scss";
+
+#calculator{
+  width: 300px;
+  margin-top: 70px;
+  padding: 20px;
+  background-color: $calcBG;
+  border-radius: 5px;
+
+  #inputScreen{
+    background-color: $inputBG;
+    padding: 6px 12px;
+    min-height: 2.3em;
+  }
+
+  .inputRow{
+    margin-bottom: 5px;
+  }
+  .equals{
+    margin-top: 15px;
+  }
+  .undo{
+    margin-top: 25px;
+  }
+}
