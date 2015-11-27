@@ -4,26 +4,30 @@ function calculator(){
 		latestEntry: [],
 		operatorBoolean: true,
 		periodBoolean: false,
+		canUndo: false,
 		appendToInput: function(input){			
 			input = input.toString();
 			this.inputVal += input;
 			this.latestEntry.push(input);
-			console.log(this.inputVal);
 			this.updateDOM();				
-		},
-		
+		},	
 		undo: function(){
-			var latestEntryLength = this.latestEntry.length - 1,
-				latestEntry = this.latestEntry[latestEntryLength],
-				lengthDifference = this.inputVal.length - latestEntry.length;
+			if(this.canUndo){		
+				var latestEntryLength = this.latestEntry.length - 1,
+					latestEntry = this.latestEntry[latestEntryLength],
+					lengthDifference = this.inputVal.length - latestEntry.length;
 
-				if(this.latestEntry[latestEntryLength] === "."){
-					this.periodBoolean = false;
-				} else if(this.isOperator(this.latestEntry[latestEntryLength])){
-					this.operatorBoolean = false;
-				}
-			this.inputVal = this.inputVal.slice(0, lengthDifference);
-			this.latestEntry.pop();
+					if(this.latestEntry[latestEntryLength] === "."){
+						this.periodBoolean = false;
+					} else if(this.isOperator(this.latestEntry[latestEntryLength])){
+						this.operatorBoolean = false;
+					}
+					this.inputVal = this.inputVal.slice(0, lengthDifference);
+					this.latestEntry.pop();
+					if(latestEntryLength === 0){
+						this.canUndo = false;
+					}
+			}
 		},
 		isOperator: function(input){
 			if(input === '+' ||input === "-" ||input === '*' ||input === '/'){
@@ -35,7 +39,6 @@ function calculator(){
 		clear:function(){
 			this.inputVal = "";
 			this.latestEntry = [];
-			console.log("Cleared");
 		},
 		equals: function(){
 			this.inputVal = eval(this.inputVal);
@@ -46,6 +49,8 @@ function calculator(){
 
 			$(".numKey").click(function(){
 				_this.operatorBoolean = false;
+				_this.canUndo = true;
+				$('.undo').removeClass('disabled');
 				_this.appendToInput($(this).html());
 			});
 			$(".operator").click(function(){
@@ -78,8 +83,12 @@ function calculator(){
 				_this.updateDOM();
 			});
 			$(".equals").click(function(){
-				_this.equals();
-				_this.updateDOM();
+				if(_this.inputVal){
+					_this.equals();
+					_this.updateDOM();
+					_this.canUndo = false;
+					$('.undo').addClass('disabled');
+				}
 			});
 		},
 		updateDOM: (function(){
@@ -90,5 +99,3 @@ function calculator(){
 	}
 }
 
-var calc = calculator();
-calc.setupDOM();

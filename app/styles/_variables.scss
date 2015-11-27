@@ -1,12 +1,25 @@
 /* Color declarations
 ================================ */
-
-$light-gray				:	#dfdfdf;
-$khaki					:	#948D68;
+$fontWhite              : #ddd;
+$light-gray				: #dfdfdf;
+$khaki					: #C9B88D;
+$darkKhaki              : #796459;
+$charcoal               : #1C1B18;
+$blueGreen              : #2B4A40;
 
 
 /* Color assignment
 ================================ */
+/*Background colors*/
+$inputBG				: $light-gray;
+$calcBG					: $khaki;
+$bodyBG                 : $charcoal;
+$equalsBG               : $blueGreen;
+$operatorBG             : $darkKhaki;
 
-$inputBG					:	$light-gray;
-$calcBG						:	$khaki;
+/*Fonts*/
+$equalsFontColor        : $fontWhite;
+$operatorFontColor      : $fontWhite;
+
+/*Borders*/
+$equalsBtnBorder        : $blueGreen;

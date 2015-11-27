@@ -57,7 +57,7 @@
           <div class="equals col-xs-10 col-xs-offset-1 btn btn-default">Equals</div>
         </div>
         <div class="row">
-          <div class="undo col-xs-10 col-xs-offset-1 btn btn-default">Undo</div>
+          <div class="undo col-xs-10 col-xs-offset-1 btn btn-default disabled">Backspace</div>
         </div>
       </div>  
     </div>
@@ -86,5 +86,10 @@
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
+
+    <script>    
+      var calc = calculator();
+      calc.setupDOM();
+    </script>
   </body>
 </html>

@@ -4,18 +4,34 @@ $icon-font-path: '../fonts/';
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 @import "_variables.scss";
-
+body{
+  background-color: $bodyBG;
+}
 #calculator{
-  width: 300px;
-  margin-top: 70px;
-  padding: 20px;
+  width: 400px;
+  margin-top: 100px;
+  padding: 40px;
   background-color: $calcBG;
   border-radius: 5px;
+
+  .operator{
+    background-color: $operatorBG;
+    color: $operatorFontColor;
+  }
+
+  .numKey, .operator, .period{
+    font-size: 1.3em;
+  }
+
+  .equals, .undo, .clear{
+    font-size: 1.4em;
+  }
 
   #inputScreen{
     background-color: $inputBG;
     padding: 6px 12px;
     min-height: 2.3em;
+    font-size: 1.3em;
   }
 
   .inputRow{
@@ -23,6 +39,9 @@ $icon-font-path: '../fonts/';
   }
   .equals{
     margin-top: 15px;
+    background-color: $equalsBG;
+    color: $equalsFontColor;
+    border-color: $equalsBtnBorder;
   }
   .undo{
     margin-top: 25px;
