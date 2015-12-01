@@ -5,6 +5,7 @@ $icon-font-path: '../fonts/';
 // endbower
 @import "_variables.scss";
 @import "_backbutton";
+@import "githubIcon";
 body{
   background-color: $bodyBG;
 }
