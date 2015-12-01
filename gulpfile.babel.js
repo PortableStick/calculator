@@ -38,7 +38,16 @@ const testLintOptions = {
   }
 };
 
-gulp.task('lint', lint('app/scripts/**/*.js'));
+const lintOptions = {
+  globals: {
+    "$": false
+  },
+  rules: {
+    "no-eval": 0
+  }
+};
+
+gulp.task('lint', lint('app/scripts/**/*.js', lintOptions));
 gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 
 gulp.task('html', ['styles'], () => {

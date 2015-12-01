@@ -3,7 +3,7 @@
 
     function calculator() {
         return {
-            inputVal: "",
+            inputVal: '',
             latestEntry: [],
             operatorBoolean: true,
             periodBoolean: false,
@@ -20,7 +20,7 @@
                         lastEntry = this.latestEntry[latestEntryLength],
                         lengthDifference = this.inputVal.length - lastEntry.length;
 
-                    if (lastEntry === ".") {
+                    if (lastEntry === '.') {
                         this.periodBoolean = false;
                     } else if (this.isOperator(this.latestEntry[latestEntryLength])) {
                         this.operatorBoolean = false;
@@ -33,14 +33,14 @@
                 }
             },
             isOperator: function (input) {
-                if (input === '+' || input === "-" || input === '*' || input === '/') {
+                if (input === '+' || input === '-' || input === '*' || input === '/') {
                     return true;
                 } else {
                     return false;
                 }
             },
             clear: function () {
-                this.inputVal = "";
+                this.inputVal = '';
                 this.latestEntry = [];
             },
             equals: function () {
@@ -48,48 +48,48 @@
                 this.inputVal = this.inputVal.toString();
             },
             setupDOM: function () {
-                var _this = this;
+                var context = this;
 
-                $(".numKey").click(function () {
-                    _this.operatorBoolean = false;
-                    _this.canUndo = true;
+                $('.numKey').click(function () {
+                    context.operatorBoolean = false;
+                    context.canUndo = true;
                     $('.undo').removeClass('disabled');
-                    _this.appendToInput($(this).html());
+                    context.appendToInput($(this).html());
                 });
-                $(".operator").click(function () {
-                    if (_this.operatorBoolean === true) {
+                $('.operator').click(function () {
+                    if (context.operatorBoolean === true) {
                         return;
                     } else {
-                        _this.operatorBoolean = true;
-                        _this.appendToInput($(this).html());
-                        _this.periodBoolean = false;
+                        context.operatorBoolean = true;
+                        context.appendToInput($(this).html());
+                        context.periodBoolean = false;
                     }
                 });
-                $(".period").click(function () {
-                    if (_this.periodBoolean === true) {
+                $('.period').click(function () {
+                    if (context.periodBoolean === true) {
                         return;
                     } else {
-                        _this.periodBoolean = true;
-                        _this.appendToInput($(this).html());
+                        context.periodBoolean = true;
+                        context.appendToInput($(this).html());
                     }
                 });
 
                 $('.clear').click(function () {
-                    _this.clear();
-                    _this.periodBoolean = false;
-                    _this.operatorBoolean = true;
-                    _this.updateDOM();
+                    context.clear();
+                    context.periodBoolean = false;
+                    context.operatorBoolean = true;
+                    context.updateDOM();
                 });
 
-                $(".undo").click(function () {
-                    _this.undo();
-                    _this.updateDOM();
+                $('.undo').click(function () {
+                    context.undo();
+                    context.updateDOM();
                 });
-                $(".equals").click(function () {
-                    if (_this.inputVal) {
-                        _this.equals();
-                        _this.updateDOM();
-                        _this.canUndo = false;
+                $('.equals').click(function () {
+                    if (context.inputVal) {
+                        context.equals();
+                        context.updateDOM();
+                        context.canUndo = false;
                         $('.undo').addClass('disabled');
                     }
                 });
