@@ -32,7 +32,7 @@ function calculator() {
 
       if (lastEntry === '.') {
         periodBoolean = false;
-      } else if (isOperator(latestEntry[latestEntryLength])) {
+      } else if (isOperator(lastEntry)) {
         operatorBoolean = false;
       }
       inputVal = inputVal.slice(0, lengthDifference);
