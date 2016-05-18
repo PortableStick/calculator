@@ -1,108 +1,144 @@
-(function () {
-    'use strict';
+function calculator() {
+  var inputVal = '',
+  latestEntry = [],
+  operatorBoolean = true,
+  periodBoolean = false,
+  canUndo = false,
+  /* cache jQuery refs */
+  $inputScreen = $('#inputScreen'),
+  $undo = $('.undo'),
+  $equals = $('.equals'),
+  $operator = $('.operator'),
+  $numkey = $('.numKey'),
+  $period = $('.period'),
+  $clear = $('.clear');
 
-    function calculator() {
-        return {
-            inputVal: '',
-            latestEntry: [],
-            operatorBoolean: true,
-            periodBoolean: false,
-            canUndo: false,
-            appendToInput: function (input) {
-                input = input.toString();
-                this.inputVal += input;
-                this.latestEntry.push(input);
-                this.updateDOM();
-            },
-            undo: function () {
-                if (this.canUndo) {
-                    var latestEntryLength = this.latestEntry.length - 1,
-                        lastEntry = this.latestEntry[latestEntryLength],
-                        lengthDifference = this.inputVal.length - lastEntry.length;
+  function updateDOM(){
+    $inputScreen.html(inputVal);
+  }
 
-                    if (lastEntry === '.') {
-                        this.periodBoolean = false;
-                    } else if (this.isOperator(this.latestEntry[latestEntryLength])) {
-                        this.operatorBoolean = false;
-                    }
-                    this.inputVal = this.inputVal.slice(0, lengthDifference);
-                    this.latestEntry.pop();
-                    if (latestEntryLength === 0) {
-                        this.canUndo = false;
-                    }
-                }
-            },
-            isOperator: function (input) {
-                if (input === '+' || input === '-' || input === '*' || input === '/') {
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            clear: function () {
-                this.inputVal = '';
-                this.latestEntry = [];
-            },
-            equals: function () {
-                this.inputVal = eval(this.inputVal);
-                this.inputVal = this.inputVal.toString();
-            },
-            setupDOM: function () {
-                var context = this;
+  function appendToInput(input) {
+    input = input.toString();
+    inputVal += input;
+    latestEntry.push(input);
+    updateDOM();
+  }
 
-                $('.numKey').click(function () {
-                    context.operatorBoolean = false;
-                    context.canUndo = true;
-                    $('.undo').removeClass('disabled');
-                    context.appendToInput($(this).html());
-                });
-                $('.operator').click(function () {
-                    if (context.operatorBoolean === true) {
-                        return;
-                    } else {
-                        context.operatorBoolean = true;
-                        context.appendToInput($(this).html());
-                        context.periodBoolean = false;
-                    }
-                });
-                $('.period').click(function () {
-                    if (context.periodBoolean === true) {
-                        return;
-                    } else {
-                        context.periodBoolean = true;
-                        context.appendToInput($(this).html());
-                    }
-                });
+  function undo() {
+    if (canUndo) {
+      var latestEntryLength = latestEntry.length - 1,
+      lastEntry = latestEntry[latestEntryLength],
+      lengthDifference = inputVal.length - lastEntry.length;
 
-                $('.clear').click(function () {
-                    context.clear();
-                    context.periodBoolean = false;
-                    context.operatorBoolean = true;
-                    context.updateDOM();
-                });
+      if (lastEntry === '.') {
+        periodBoolean = false;
+      } else if (isOperator(latestEntry[latestEntryLength])) {
+        operatorBoolean = false;
+      }
+      inputVal = inputVal.slice(0, lengthDifference);
+      latestEntry.pop();
+      if (latestEntryLength === 0) {
+        canUndo = false;
+      }
+    }
+  }
 
-                $('.undo').click(function () {
-                    context.undo();
-                    context.updateDOM();
-                });
-                $('.equals').click(function () {
-                    if (context.inputVal) {
-                        context.equals();
-                        context.updateDOM();
-                        context.canUndo = false;
-                        $('.undo').addClass('disabled');
-                    }
-                });
-            },
-            updateDOM: (function () {
-                return function () {
-                    $('#inputScreen').html(this.inputVal);
-                };
-            }())
-        };
+  function isOperator(input) {
+    if (input === '+' || input === '-' || input === '*' || input === '/') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function clear() {
+    inputVal = '';
+    latestEntry = [];
+  }
+
+  function equals() {
+    /* eslint no-eval: 0 */
+    inputVal = eval(inputVal);
+    inputVal = inputVal.toString();
+  }
+
+  function turnOnUndo() {
+    canUndo = true;
+    $undo.removeClass('disabled');
+  }
+
+  function setupDOM() {
+
+    $numkey.click(function handleNumKey() {
+
+      operatorBoolean = false;
+      turnOnUndo();
+      appendToInput($(this).html());
+
+    });
+    $operator.click(function handleOperator() {
+
+      if (operatorBoolean === true) {
+
+        return;
+
+      } else {
+
+        operatorBoolean = true;
+        turnOnUndo();
+        appendToInput($(this).html());
+        periodBoolean = false;
+
+      }
+    });
+    $period.click(function handlePeriod() {
+
+      if (periodBoolean === true) {
+
+        return;
+
+      } else {
+
+        periodBoolean = true;
+        appendToInput($(this).html());
+
+      }
+    });
+
+    $clear.click(function handleClear() {
+
+      clear();
+      periodBoolean = false;
+      operatorBoolean = true;
+      updateDOM();
+
+    });
+
+    $undo.click(function handleUndo() {
+
+      undo();
+      updateDOM();
+
+    });
+    $equals.click(function handleEquals() {
+
+      if (inputVal) {
+
+        equals();
+        updateDOM();
+        canUndo = false;
+        $undo.addClass('disabled');
+
+      }
+    });
+  }
+
+  var publicApi = {
+    setupDOM: setupDOM
+  };
+
+  return publicApi;
+
 }
 
-var calc = calculator();
-    calc.setupDOM();
-
-}());
+$(document).ready(calculator().setupDOM());
